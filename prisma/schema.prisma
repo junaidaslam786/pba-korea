@@ -1,0 +1,115 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [pgvector(map: "vector", schema: "public")]
+}
+
+// ─── Auth ────────────────────────────────────────────────────────────────────
+
+model User {
+  id       String   @id @default(cuid())
+  email    String   @unique
+  password String
+  name     String
+  role     Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  SUPER_ADMIN
+}
+
+// ─── Members ─────────────────────────────────────────────────────────────────
+
+model Member {
+  id               String           @id @default(cuid())
+  name             String
+  phone            String?
+  businessName     String
+  address          String
+  membershipNumber String           @unique
+  profileImage     String?
+  natureOfBusiness String
+  designation      String
+  website          String?
+  qrCodeUrl        String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  embedding        MemberEmbedding?
+}
+
+/// Stores the pgvector embedding for semantic member search.
+/// The `vector` column is 1536-dim (OpenAI text-embedding-3-small).
+model MemberEmbedding {
+  id        Int      @id @default(autoincrement())
+  memberId  String   @unique
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  content   String
+  vector    Unsupported("vector(1536)")
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Events ──────────────────────────────────────────────────────────────────
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String?
+  date        DateTime
+  location    String
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─── Blog Posts ──────────────────────────────────────────────────────────────
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  excerpt   String?
+  content   String
+  imageUrl  String?
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Contact Submissions ─────────────────────────────────────────────────────
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+// ─── Executive Body ──────────────────────────────────────────────────────────
+
+model ExecutiveMember {
+  id          String            @id @default(cuid())
+  name        String
+  designation String
+  imageUrl    String?
+  category    ExecutiveCategory
+  sortOrder   Int               @default(0)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+enum ExecutiveCategory {
+  LEADER
+  MANAGEMENT
+}

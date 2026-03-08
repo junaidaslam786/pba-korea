@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+/* ─── PBA Korea Design Tokens ────────────────────────────────────────────── */
+:root {
+  --pba-green-50: #ecfdf5;
+  --pba-green-100: #d1fae5;
+  --pba-green-200: #a7f3d0;
+  --pba-green-300: #6ee7b7;
+  --pba-green-400: #34d399;
+  --pba-green-500: #10b981;
+  --pba-green-600: #059669;
+  --pba-green-700: #047857;
+  --pba-green-800: #065f46;
+  --pba-green-900: #064e3b;
+  --pba-green-950: #0D4D2B;
+
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --border: #e2e8f0;
+  --ring: #059669;
+  --radius: 0.625rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-pba-50: var(--pba-green-50);
+  --color-pba-100: var(--pba-green-100);
+  --color-pba-200: var(--pba-green-200);
+  --color-pba-300: var(--pba-green-300);
+  --color-pba-400: var(--pba-green-400);
+  --color-pba-500: var(--pba-green-500);
+  --color-pba-600: var(--pba-green-600);
+  --color-pba-700: var(--pba-green-700);
+  --color-pba-800: var(--pba-green-800);
+  --color-pba-900: var(--pba-green-900);
+  --color-pba-950: var(--pba-green-950);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ─── Base ────────────────────────────────────────────────────────────────── */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Smooth scroll for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Utility Classes ─────────────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--pba-green-700), var(--pba-green-500));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
